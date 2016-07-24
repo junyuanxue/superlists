@@ -13,6 +13,6 @@ class HomePageTest(TestCase):
     def test_home_page_returns_correct_url(self):
         request = HttpRequest()
         response = home_page(request)
-        self.assertTrue(response.content.startswith(b'<html>'))
+        self.assertTrue(response.content.strip().startswith(b'<!DOCTYPE html>'))
         self.assertIn(b'<title>To-Do Lists</title>', response.content)
-        self.assertTrue(response.content.endswith(b'</html>'))
+        self.assertTrue(response.content.strip().endswith(b'</html>'))
