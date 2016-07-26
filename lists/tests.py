@@ -20,7 +20,7 @@ class HomePageTest(TestCase):
     def test_home_can_save_a_POST_request(self):
         request = HttpRequest()
         request.method = 'POST'
-        request.POST['item-text'] = 'Get Python stickers'
+        request.POST['item_text'] = 'Get Python stickers'
         response = home_page(request)
         self.assertIn('Get Python stickers', response.content.decode())
 
