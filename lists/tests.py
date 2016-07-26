@@ -4,6 +4,7 @@ from django.http import HttpRequest
 from django.template.loader import render_to_string
 
 from lists.views import home_page
+from lists.models import Item
 
 class HomePageTest(TestCase):
 
@@ -29,3 +30,18 @@ class HomePageTest(TestCase):
             {'new_item_text': 'Get Python stickers'}
         )
         self.assertEqual(response.content.decode(), expected_html)
+
+class ItemModelTest(TestCase):
+
+    def add_item(self, text):
+        item = Item()
+        item.text = text
+        item.save()
+
+    def test_saving_and_retrieving_items(self):
+        self.add_item('Le premier')
+        self.add_item('Le deuxieme')
+        items = Item.objects.all()
+        self.assertEqual(items.count(), 2)
+        self.assertEqual(items[0].text, 'Le premier')
+        self.assertEqual(items[1].text, 'Le deuxieme')
