@@ -16,3 +16,10 @@ class HomePageTest(TestCase):
         response = home_page(request)
         expect_html = render_to_string('home.html')
         self.assertEqual(response.content.decode(), expect_html)
+
+    def test_home_can_save_a_POST_request(self):
+        request = HttpRequest()
+        request.method = 'POST'
+        request.POST['item-text'] = 'Get Python stickers'
+        response = home_page(request)
+        self.assertIn('Get Python stickers', response.content.decode())
