@@ -14,8 +14,8 @@ class HomePageTest(TestCase):
     def test_home_page_returns_correct_url(self):
         request = HttpRequest()
         response = home_page(request)
-        expect_html = render_to_string('home.html')
-        self.assertEqual(response.content.decode(), expect_html)
+        expected_html = render_to_string('home.html')
+        self.assertEqual(response.content.decode(), expected_html)
 
     def test_home_can_save_a_POST_request(self):
         request = HttpRequest()
@@ -23,3 +23,9 @@ class HomePageTest(TestCase):
         request.POST['item-text'] = 'Get Python stickers'
         response = home_page(request)
         self.assertIn('Get Python stickers', response.content.decode())
+
+        expected_html = render_to_string(
+            'home.html',
+            {'new_item_text': 'Get Python stickers'}
+        )
+        self.assertEqual(response.content.decode(), expected_html)
