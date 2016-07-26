@@ -23,11 +23,17 @@ class NewVisitorTest(unittest.TestCase):
             'Enter a to-do item'
         )
 
-        input_box.send_keys('Buy peacock feathers')
+        input_box.send_keys('Get Rails stickers')
         input_box.send_keys(Keys.ENTER)
+
+        input_box = self.browser.find_element_by_id('new-item')
+        input_box.send_keys('Get Django stickers')
+        input_box.send_keys(Keys.ENTER)
+
         table = self.browser.find_element_by_id('list-table')
         rows = table.find_elements_by_tag_name('tr')
-        self.assertIn('1: Buy peacock feathers', [row.text for row in rows])
+        self.assertIn('1: Get Rails stickers', [row.text for row in rows])
+        self.assertIn('2: Get Django stickers', [row.text for row in rows])
 
         self.fail('Finish the test!')
 
