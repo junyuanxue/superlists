@@ -26,16 +26,15 @@ class HomePageTest(TestCase):
 
         self.assertEqual(Item.objects.count(), 1)
         self.assertEqual(Item.objects.first().text, 'Get Python stickers')
+
+    def test_redirects_after_POST(self):
+        request = HttpRequest()
+        request.method = 'POST'
+        request.POST['item_text'] = 'Get Python stickers'
+        response = home_page(request)
+
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response['location'], '/')
-        # self.assertIn('Get Python stickers', response.content.decode())
-        #
-        # expected_html = render_to_string(
-        #     'home.html',
-        #     {'new_item_text': 'Get Python stickers'},
-        #     request=request
-        # )
-        # self.assertEqual(response.content.decode(), expected_html)
 
     def test_only_saves_items_when_necessary(self):
         request = HttpRequest()
