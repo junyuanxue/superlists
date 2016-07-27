@@ -23,6 +23,9 @@ class HomePageTest(TestCase):
         request.method = 'POST'
         request.POST['item_text'] = 'Get Python stickers'
         response = home_page(request)
+
+        self.assertEqual(Item.objects.count(), 1)
+        self.assertEqual(Item.objects.first().text, 'Get Python stickers')
         self.assertIn('Get Python stickers', response.content.decode())
 
         expected_html = render_to_string(
