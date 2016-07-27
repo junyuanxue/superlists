@@ -12,13 +12,13 @@ class HomePageTest(TestCase):
         found = resolve('/')
         self.assertEqual(found.func, home_page)
 
-    def test_home_page_returns_correct_url(self):
+    def test_returns_correct_url(self):
         request = HttpRequest()
         response = home_page(request)
         expected_html = render_to_string('home.html', request=request)
         self.assertEqual(response.content.decode(), expected_html)
 
-    def test_home_can_save_a_POST_request(self):
+    def test_saves_a_POST_request(self):
         request = HttpRequest()
         request.method = 'POST'
         request.POST['item_text'] = 'Get Python stickers'
@@ -34,6 +34,11 @@ class HomePageTest(TestCase):
             request=request
         )
         self.assertEqual(response.content.decode(), expected_html)
+
+    def test_only_saves_items_when_necessary(self):
+        request = HttpRequest()
+        home_page(request)
+        self.assertEqual(Item.objects.count(), 0)
 
 class ItemModelTest(TestCase):
 
