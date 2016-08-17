@@ -41,15 +41,6 @@ class HomePageTest(TestCase):
         home_page(request)
         self.assertEqual(Item.objects.count(), 0)
 
-    def test_displays_all_list_items(self):
-        Item.objects.create(text='Un')
-        Item.objects.create(text='Deux')
-        request = HttpRequest()
-        response = home_page(request)
-
-        self.assertIn('Un', response.content.decode())
-        self.assertIn('Deux', response.content.decode())
-
 class ItemModelTest(TestCase):
 
     def add_item(self, text):
@@ -73,4 +64,4 @@ class ListViewTest(TestCase):
         response = self.client.get('/lists/the-only-list-in-the-world/')
 
         self.assertContains(response, 'Un')
-        self.assertContains(response, 'Deux')  
+        self.assertContains(response, 'Deux')
