@@ -27,7 +27,10 @@ class NewVisitorTest(LiveServerTestCase):
         input_box.send_keys(Keys.ENTER)
         luke_list_url = self.browser.current_url
         self.assertRegex(luke_list_url, '/lists/.+')
-        self.check_for_row_in_list_table('1: Get Rails stickers')
+        
+        table = self.browser.find_element_by_id('list-table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertIn('1: Get Rails stickers', [row.text for row in rows])
 
         input_box = self.browser.find_element_by_id('new-item')
         input_box.send_keys('Get Django stickers')
@@ -57,4 +60,3 @@ class NewVisitorTest(LiveServerTestCase):
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Get Rails stickers', page_text)
         self.assertNotIn('Get Django stickers', page_text)
-        

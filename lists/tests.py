@@ -64,3 +64,13 @@ class ItemModelTest(TestCase):
         self.assertEqual(items.count(), 2)
         self.assertEqual(items[0].text, 'Le premier')
         self.assertEqual(items[1].text, 'Le deuxieme')
+
+class ListViewTest(TestCase):
+
+    def test_display_all_items(self):
+        Item.objects.create(text='Un')
+        Item.objects.create(text='Deux')
+        response = self.client.get('/lists/the-only-list-in-the-world/')
+
+        self.assertContains(response, 'Un')
+        self.assertContains(response, 'Deux')  
