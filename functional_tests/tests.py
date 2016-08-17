@@ -25,6 +25,9 @@ class NewVisitorTest(LiveServerTestCase):
 
         input_box.send_keys('Get Rails stickers')
         input_box.send_keys(Keys.ENTER)
+        luke_list_url = self.browser.current_url
+        self.assertRegex(luke_list_url, '/lists/.+')
+        self.check_for_row_in_list_table('1: Get Rails stickers')
 
         input_box = self.browser.find_element_by_id('new-item')
         input_box.send_keys('Get Django stickers')
@@ -35,4 +38,23 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertIn('1: Get Rails stickers', [row.text for row in rows])
         self.assertIn('2: Get Django stickers', [row.text for row in rows])
 
-        self.fail('Finish the test!')
+        self.browser.quit()
+        self.browser = webdriver.Firefox()
+
+        self.browser.get(self.live_server_url)
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertNotIn('Get Rails stickers', page_text)
+        self.assertNotIn('Get Django stickers', page_text)
+
+        input_box.self.browser.find_element_by_id('new-item')
+        input_box.send_keys('Read Harry Potter')
+        input_box.send_keys(Keys.ENTER)
+
+        han_list_url = self.browser.current_url
+        self.assertRegex(han_list_url, '/lists/.+')
+        self.assertNotEqual(han_list_url, luke_list_url)
+
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertNotIn('Get Rails stickers', page_text)
+        self.assertNotIn('Get Django stickers', page_text)
+        
